@@ -12,7 +12,10 @@ function List() {
     e.preventDefault();
   };
   const addToList = () => {
-    setToDos([...toDoLsts, {listToDo : toDoLst, id : Date.now()}]);
+    setToDos([
+      ...toDoLsts,
+      { listToDo: toDoLst, id: Date.now(), status: false },
+    ]);
     console.log(toDoLsts);
     setToDo("");
   };
@@ -20,9 +23,18 @@ function List() {
   useEffect(() => {
     inputRef.current.focus();
   });
-    const deleteFunction = (id) => {
-      setToDos(toDoLsts.filter((toDo) => toDo.id !== id));
-  }
+  const deleteFunction = (id) => {
+    setToDos(toDoLsts.filter((toDo) => toDo.id !== id));
+  };
+  const doneFunction = (id) => {
+    let done = toDoLsts.map((listToDo) => {
+      if (listToDo.id === id) {
+        return { ...listToDo, status: !listToDo.status };
+      }
+      return listToDo;
+    });
+    setToDos(done);
+  };
 
   return (
     <div className="container">
@@ -42,20 +54,22 @@ function List() {
         <ul>
           {toDoLsts.map((toDo) => (
             <li className="lst-items">
-              <div className="lst-item-lst">{toDo.listToDo}</div>
+              <div className="lst-item-lst" id={toDo.status ? "lst-item" : ""}>
+                {toDo.listToDo}
+              </div>
               <span>
                 <FaRegCheckCircle
                   className="lst-item-icons"
                   id="done"
                   title="Done"
+                  onClick={() => doneFunction(toDo.id)}
                 />
                 <FaRegEdit className="lst-item-icons" id="edit" title="Edit" />
                 <MdDeleteOutline
                   className="lst-item-icons"
                   id="delete"
                   title="Delete"
-                  onClick={()=>deleteFunction(toDo.id)}
-                        
+                  onClick={() => deleteFunction(toDo.id)}
                 />
               </span>
             </li>

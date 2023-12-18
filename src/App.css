@@ -66,3 +66,8 @@ li {
   cursor: pointer;
   color: white;
 }
+
+#lst-item{
+  text-decoration: line-through;
+  opacity: 0.3;
+}
