@@ -8,16 +8,30 @@ import { FaRegCheckCircle } from "react-icons/fa";
 function List() {
   const [toDoLst, setToDo] = useState("");
   const [toDoLsts, setToDos] = useState([]);
+  const [updateID, setUpdateID] = useState(0);
   const handleSubmit = (e) => {
     e.preventDefault();
   };
   const addToList = () => {
-    setToDos([
-      ...toDoLsts,
-      { listToDo: toDoLst, id: Date.now(), status: false },
-    ]);
-    console.log(toDoLsts);
-    setToDo("");
+    if (toDoLst !== "") {
+      setToDos([
+        ...toDoLsts,
+        { listToDo: toDoLst, id: Date.now(), status: false },
+      ]);
+      console.log(toDoLsts);
+      setToDo("");
+    }
+    if (updateID) {
+      const updateToDo = toDoLsts.find((toDoLst) => toDoLst.id == updateID);
+      const udToDo = toDoLsts.map((toDo) =>
+        toDo.id === updateToDo.id
+          ? (toDo = { id: toDo.id, listToDo: toDoLst })
+          : (toDo = { id: toDo.id, listToDo: toDo.listToDo })
+      );
+      setToDos(udToDo);
+      setUpdateID(0);
+      setToDo("");
+    }
   };
   const inputRef = useRef("null");
   useEffect(() => {
@@ -35,6 +49,11 @@ function List() {
     });
     setToDos(done);
   };
+  const updateFunction = (id) => {
+    const updateToDo = toDoLsts.find((toDo) => toDo.id === id);
+    setToDo(updateToDo.listToDo);
+    setUpdateID(updateToDo.id);
+  };
 
   return (
     <div className="container">
@@ -48,7 +67,7 @@ function List() {
           className="submitControl"
           onChange={(event) => setToDo(event.target.value)}
         />
-        <button onClick={addToList}>Submit</button>
+        <button onClick={addToList}> {updateID ? "Edit" : "Submit"} </button>
       </form>
       <div className="listToDo">
         <ul>
@@ -64,7 +83,12 @@ function List() {
                   title="Done"
                   onClick={() => doneFunction(toDo.id)}
                 />
-                <FaRegEdit className="lst-item-icons" id="edit" title="Edit" />
+                <FaRegEdit
+                  className="lst-item-icons"
+                  id="update"
+                  title="Update"
+                  onClick={() => updateFunction(toDo.id)}
+                />
                 <MdDeleteOutline
                   className="lst-item-icons"
                   id="delete"
