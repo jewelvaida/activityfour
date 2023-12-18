@@ -12,15 +12,17 @@ function List() {
     e.preventDefault();
   };
   const addToList = () => {
-    setToDos([...toDoLsts, toDoLst]);
+    setToDos([...toDoLsts, {listToDo : toDoLst, id : Date.now()}]);
     console.log(toDoLsts);
     setToDo("");
   };
-
   const inputRef = useRef("null");
   useEffect(() => {
     inputRef.current.focus();
   });
+    const deleteFunction = (id) => {
+      setToDos(toDoLsts.filter((toDo) => toDo.id !== id));
+  }
 
   return (
     <div className="container">
@@ -38,9 +40,9 @@ function List() {
       </form>
       <div className="listToDo">
         <ul>
-          {toDoLsts.map((to) => (
+          {toDoLsts.map((toDo) => (
             <li className="lst-items">
-              <div className="lst-item-lst">{to}</div>
+              <div className="lst-item-lst">{toDo.listToDo}</div>
               <span>
                 <FaRegCheckCircle
                   className="lst-item-icons"
@@ -52,7 +54,7 @@ function List() {
                   className="lst-item-icons"
                   id="delete"
                   title="Delete"
-                  onClick={()=>onDelete}
+                  onClick={()=>deleteFunction(toDo.id)}
                         
                 />
               </span>
