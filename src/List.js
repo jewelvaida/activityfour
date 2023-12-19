@@ -24,7 +24,7 @@ function List() {
   });
 
   const addToListWrapper = () => {
-    addToList(toDoLst, toDoLsts, setToDos, setToDo, updateID, setUpdateID); // Use the imported addToList
+    addToList(toDoLst, toDoLsts, setToDos, setToDo, updateID, setUpdateID); 
   };
 
   const deleteFunctionWrapper = (id) => {
@@ -42,8 +42,7 @@ function List() {
   return (
     <div className="container">
       <h2>TO DO LIST</h2>
-
-      <form className="submitForm" onSubmit={handleSubmit}>
+      <form className="submitForm" onSubmit={handleSubmit}> 
         <input
           type="text"
           value={toDoLst}
