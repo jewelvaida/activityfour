@@ -52,22 +52,22 @@ li {
   padding: 10px;
 }
 
-.lst-items{
+.lst-items {
   display: flex;
 }
 
-.lst-items .lst-item-lst{
+.lst-items .lst-item-lst {
   flex: 1;
 }
 
-.lst-items .lst-item-icons{
+.lst-items .lst-item-icons {
   padding-left: 5px;
   font-size: 20px;
   cursor: pointer;
   color: white;
 }
 
-#lst-item{
+#lst-item {
   text-decoration: line-through;
   opacity: 0.3;
 }
