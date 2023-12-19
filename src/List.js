@@ -2,6 +2,7 @@ import React from "react";
 import "./App.css";
 import { useState, useRef, useEffect } from "react";
 import deleteFunction from "./deleteFunction";
+import doneFunction from "./doneFunction";
 import { MdDeleteOutline } from "react-icons/md";
 import { FaRegEdit } from "react-icons/fa";
 import { FaRegCheckCircle } from "react-icons/fa";
@@ -10,10 +11,16 @@ function List() {
   const [toDoLst, setToDo] = useState("");
   const [toDoLsts, setToDos] = useState([]);
   const [updateID, setUpdateID] = useState(0);
+  const inputRef = useRef("null");
 
   const handleSubmit = (e) => {
     e.preventDefault();
   };
+
+  useEffect(() => {
+    inputRef.current.focus();
+  });
+
   const addToList = () => {
     if (toDoLst !== "") {
       setToDos([
@@ -35,22 +42,15 @@ function List() {
       setToDo("");
     }
   };
-  const inputRef = useRef("null");
-  useEffect(() => {
-    inputRef.current.focus();
-  });
+
   const deleteFunctionWrapper = (id) => {
     deleteFunction(id, toDoLsts, setToDos); // Use the imported deleteFunction
   };
-  const doneFunction = (id) => {
-    let done = toDoLsts.map((listToDo) => {
-      if (listToDo.id === id) {
-        return { ...listToDo, status: !listToDo.status };
-      }
-      return listToDo;
-    });
-    setToDos(done);
+
+  const doneFunctionWrapper = (id) => {
+    doneFunction(id, toDoLsts, setToDos); // Use the imported doneFunction
   };
+
   const updateFunction = (id) => {
     const updateToDo = toDoLsts.find((toDo) => toDo.id === id);
     setToDo(updateToDo.listToDo);
@@ -79,7 +79,7 @@ function List() {
                 className="lst-item-icons-done"
                 id="done"
                 title="Done"
-                onClick={() => doneFunction(toDo.id)}
+                onClick={() => doneFunctionWrapper(toDo.id)}
               />
               <div className="lst-item-lst" id={toDo.status ? "lst-item" : ""}>
                 {toDo.listToDo}
