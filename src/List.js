@@ -1,6 +1,7 @@
 import React from "react";
 import "./App.css";
 import { useState, useRef, useEffect } from "react";
+import deleteFunction from "./deleteFunction";
 import { MdDeleteOutline } from "react-icons/md";
 import { FaRegEdit } from "react-icons/fa";
 import { FaRegCheckCircle } from "react-icons/fa";
@@ -9,6 +10,7 @@ function List() {
   const [toDoLst, setToDo] = useState("");
   const [toDoLsts, setToDos] = useState([]);
   const [updateID, setUpdateID] = useState(0);
+
   const handleSubmit = (e) => {
     e.preventDefault();
   };
@@ -37,8 +39,8 @@ function List() {
   useEffect(() => {
     inputRef.current.focus();
   });
-  const deleteFunction = (id) => {
-    setToDos(toDoLsts.filter((toDo) => toDo.id !== id));
+  const deleteFunctionWrapper = (id) => {
+    deleteFunction(id, toDoLsts, setToDos); // Use the imported deleteFunction
   };
   const doneFunction = (id) => {
     let done = toDoLsts.map((listToDo) => {
@@ -73,16 +75,16 @@ function List() {
         <ul>
           {toDoLsts.map((toDo) => (
             <li className="lst-items">
+              <FaRegCheckCircle
+                className="lst-item-icons-done"
+                id="done"
+                title="Done"
+                onClick={() => doneFunction(toDo.id)}
+              />
               <div className="lst-item-lst" id={toDo.status ? "lst-item" : ""}>
                 {toDo.listToDo}
               </div>
               <span>
-                <FaRegCheckCircle
-                  className="lst-item-icons"
-                  id="done"
-                  title="Done"
-                  onClick={() => doneFunction(toDo.id)}
-                />
                 <FaRegEdit
                   className="lst-item-icons"
                   id="update"
@@ -93,7 +95,7 @@ function List() {
                   className="lst-item-icons"
                   id="delete"
                   title="Delete"
-                  onClick={() => deleteFunction(toDo.id)}
+                  onClick={() => deleteFunctionWrapper(toDo.id)}
                 />
               </span>
             </li>

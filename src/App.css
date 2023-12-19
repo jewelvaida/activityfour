@@ -23,6 +23,11 @@ h2 {
   flex-direction: row;
   margin: 20px;
   width: auto;
+  justify-content: center;
+}
+
+.submitControl {
+  width: 70%;
 }
 
 button {
@@ -42,9 +47,9 @@ button {
 
 li {
   margin-bottom: 15px;
-  margin-left: -25px;
+  margin-left: -5px;
   width: 90%;
-  background-color: black !important;
+  background-color: #691883 !important;
   color: white !important;
   border: none !important;
   list-style: none;
@@ -62,6 +67,16 @@ li {
 
 .lst-items .lst-item-icons {
   padding-left: 5px;
+  font-size: 20px;
+  cursor: pointer;
+  color: white;
+  padding-top: 3px;
+}
+
+.lst-items .lst-item-icons-done {
+  padding-left: 5px;
+  padding-right: 10px;
+  padding-top: 3px;
   font-size: 20px;
   cursor: pointer;
   color: white;
