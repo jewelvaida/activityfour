@@ -3,6 +3,7 @@ import "./App.css";
 import { useState, useRef, useEffect } from "react";
 import deleteFunction from "./deleteFunction";
 import doneFunction from "./doneFunction";
+import updateFunction from "./updateFunction";
 import { MdDeleteOutline } from "react-icons/md";
 import { FaRegEdit } from "react-icons/fa";
 import { FaRegCheckCircle } from "react-icons/fa";
@@ -44,17 +45,15 @@ function List() {
   };
 
   const deleteFunctionWrapper = (id) => {
-    deleteFunction(id, toDoLsts, setToDos); // Use the imported deleteFunction
+    deleteFunction(id, toDoLsts, setToDos);
   };
 
   const doneFunctionWrapper = (id) => {
-    doneFunction(id, toDoLsts, setToDos); // Use the imported doneFunction
+    doneFunction(id, toDoLsts, setToDos);
   };
 
-  const updateFunction = (id) => {
-    const updateToDo = toDoLsts.find((toDo) => toDo.id === id);
-    setToDo(updateToDo.listToDo);
-    setUpdateID(updateToDo.id);
+  const updateFunctionWrapper = (id) => {
+    updateFunction(id, toDoLsts, setToDo, setUpdateID);
   };
 
   return (
@@ -89,7 +88,7 @@ function List() {
                   className="lst-item-icons"
                   id="update"
                   title="Update"
-                  onClick={() => updateFunction(toDo.id)}
+                  onClick={() => updateFunctionWrapper(toDo.id)}
                 />
                 <MdDeleteOutline
                   className="lst-item-icons"
