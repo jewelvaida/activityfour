@@ -1,6 +1,7 @@
 import React from "react";
 import "./App.css";
 import { useState, useRef, useEffect } from "react";
+import addToList from "./addToList";
 import deleteFunction from "./deleteFunction";
 import doneFunction from "./doneFunction";
 import updateFunction from "./updateFunction";
@@ -22,26 +23,8 @@ function List() {
     inputRef.current.focus();
   });
 
-  const addToList = () => {
-    if (toDoLst !== "") {
-      setToDos([
-        ...toDoLsts,
-        { listToDo: toDoLst, id: Date.now(), status: false },
-      ]);
-      console.log(toDoLsts);
-      setToDo("");
-    }
-    if (updateID) {
-      const updateToDo = toDoLsts.find((toDoLst) => toDoLst.id == updateID);
-      const udToDo = toDoLsts.map((toDo) =>
-        toDo.id === updateToDo.id
-          ? (toDo = { id: toDo.id, listToDo: toDoLst })
-          : (toDo = { id: toDo.id, listToDo: toDo.listToDo })
-      );
-      setToDos(udToDo);
-      setUpdateID(0);
-      setToDo("");
-    }
+  const addToListWrapper = () => {
+    addToList(toDoLst, toDoLsts, setToDos, setToDo, updateID, setUpdateID); // Use the imported addToList
   };
 
   const deleteFunctionWrapper = (id) => {
@@ -59,6 +42,7 @@ function List() {
   return (
     <div className="container">
       <h2>TO DO LIST</h2>
+
       <form className="submitForm" onSubmit={handleSubmit}>
         <input
           type="text"
@@ -68,8 +52,13 @@ function List() {
           className="submitControl"
           onChange={(event) => setToDo(event.target.value)}
         />
-        <button onClick={addToList}> {updateID ? "Edit" : "Submit"} </button>
+
+        <button onClick={addToListWrapper}>
+          {" "}
+          {updateID ? "Edit" : "Submit"}{" "}
+        </button>
       </form>
+
       <div className="listToDo">
         <ul>
           {toDoLsts.map((toDo) => (
@@ -80,9 +69,11 @@ function List() {
                 title="Done"
                 onClick={() => doneFunctionWrapper(toDo.id)}
               />
+
               <div className="lst-item-lst" id={toDo.status ? "lst-item" : ""}>
                 {toDo.listToDo}
               </div>
+
               <span>
                 <FaRegEdit
                   className="lst-item-icons"
@@ -90,6 +81,7 @@ function List() {
                   title="Update"
                   onClick={() => updateFunctionWrapper(toDo.id)}
                 />
+
                 <MdDeleteOutline
                   className="lst-item-icons"
                   id="delete"
